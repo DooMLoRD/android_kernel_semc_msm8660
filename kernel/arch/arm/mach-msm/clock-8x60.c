@@ -57,6 +57,8 @@
 #define CLK_TEST_REG				REG(0x2FA0)
 #define EBI2_2X_CLK_CTL_REG			REG(0x2660)
 #define EBI2_CLK_CTL_REG			REG(0x2664)
+#define GPn_MD_REG(n)				REG(0x2D00+(0x20*(n)))
+#define GPn_NS_REG(n)				REG(0x2D24+(0x20*(n)))
 #define GSBIn_HCLK_CTL_REG(n)			REG(0x29C0+(0x20*((n)-1)))
 #define GSBIn_QUP_APPS_MD_REG(n)		REG(0x29C8+(0x20*((n)-1)))
 #define GSBIn_QUP_APPS_NS_REG(n)		REG(0x29CC+(0x20*((n)-1)))
@@ -212,7 +214,7 @@
 /* MUX source input identifiers. */
 #define SRC_SEL_BB_PXO		0
 #define SRC_SEL_BB_MXO		1
-#define SRC_SEL_BB_CXO		SRC_SEL_BB_PXO
+#define SRC_SEL_BB_CXO		5
 #define SRC_SEL_BB_PLL0		2
 #define SRC_SEL_BB_PLL8		3
 #define SRC_SEL_BB_PLL6		4
@@ -615,6 +617,43 @@ static void set_rate_div_banked(struct clk_local *clk, struct clk_freq_tbl *nf)
 	}
 static struct clk_freq_tbl clk_tbl_adm[] = {
 	F_ADM(1, BB_PXO, NONE),
+	F_END,
+};
+
+/* GP */
+#define CLK_GP(id, n, h_r, h_c, h_b, tv) \
+	[L_##id##_CLK] = { \
+		.type = MND, \
+		.ns_reg = GPn_NS_REG(n), \
+		.cc_reg = GPn_NS_REG(n), \
+		.md_reg = GPn_MD_REG(n), \
+		.halt_reg = h_r, \
+		.halt_check = h_c, \
+		.halt_bit = h_b, \
+		.br_en_mask = BIT(9), \
+		.root_en_mask = BIT(11), \
+		.ns_mask = (BM(23, 16) | BM(6, 0)), \
+		.set_rate = set_rate_mnd, \
+		.freq_tbl = clk_tbl_gp, \
+		.parent = L_NONE_CLK, \
+		.test_vector = tv, \
+		.current_freq = &local_dummy_freq, \
+	}
+#define F_GP(f, s, d, m, n, v) \
+	{ \
+		.freq_hz = f, \
+		.src = SRC_##s, \
+		.md_val = MD8(16, m, 0, n), \
+		.ns_val = NS(23, 16, n, m, 5, 4, 3, d, 2, 0, s), \
+		.mnd_en_mask = BIT(8) * !!(n), \
+		.sys_vdd = v, \
+	}
+static struct clk_freq_tbl clk_tbl_gp[] = {
+	F_GP(        0, BB_GND,  1, 0, 0, NONE),
+	F_GP(  9600000, BB_CXO,  2, 0, 0, LOW),
+	F_GP( 13500000, BB_PXO,  2, 0, 0, LOW),
+	F_GP( 19200000, BB_CXO,  1, 0, 0, LOW),
+	F_GP( 27000000, BB_PXO,  1, 0, 0, LOW),
 	F_END,
 };
 
@@ -1814,6 +1853,14 @@ struct clk_local soc_clk_local_tbl[] = {
 	/*
 	 * Peripheral Clocks
 	 */
+
+	CLK_GP(GP0, 0, CLK_HALT_SFPB_MISC_STATE_REG, HALT, 7,
+			TEST_PER_LS(0x1F)),
+	CLK_GP(GP1, 1, CLK_HALT_SFPB_MISC_STATE_REG, HALT, 6,
+			TEST_PER_LS(0x20)),
+	CLK_GP(GP2, 2, CLK_HALT_SFPB_MISC_STATE_REG, HALT, 5,
+			TEST_PER_LS(0x21)),
+
 	CLK_GSBI_UART(GSBI1_UART,   1, CLK_HALT_CFPB_STATEA_REG, HALT, 10,
 			TEST_PER_LS(0x3E)),
 	CLK_GSBI_UART(GSBI2_UART,   2, CLK_HALT_CFPB_STATEA_REG, HALT,  6,

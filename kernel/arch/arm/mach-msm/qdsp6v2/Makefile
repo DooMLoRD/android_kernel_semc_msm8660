@@ -2,6 +2,8 @@ obj-$(CONFIG_MSM8X60_RTAC) += rtac.o
 obj-y += audio_dev_ctl.o
 ifdef CONFIG_MACH_SEMC_FUJI_NOZOMI_DCM
 obj-y += board-semc_fuji-audio.o
+else ifdef CONFIG_MACH_SEMC_FUJI_NOZOMI
+obj-y += board-semc_fuji-audio.o
 else
 obj-y += board-msm8x60-audio.o
 endif

@@ -125,6 +125,9 @@
 #define WALL_CHG 0x02
 #define CRADLE_CHG 0x04
 
+#define OTG_UNLOCK 0
+#define OTG_LOCK 1
+
 #define SET_BIT(bit, val, data) ((val << bit) | ((data) & ~(1 << bit)))
 #define CHK_BIT(bit, data) (((data) & (1 << bit)) >> bit)
 #define SET_MASK(mask, val, data) (((data) & ~(mask)) | (val))
@@ -281,6 +284,8 @@ struct bq24160_data {
 static void bq24160_hz_enable(struct bq24160_data *bd, int enable);
 static void bq24160_start_delayed_enable(struct bq24160_data *bd,
 					unsigned long delay);
+static void bq24160_start_watchdog_reset(struct bq24160_data *bd);
+static void bq24160_stop_watchdog_reset(struct bq24160_data *bd);
 
 #ifdef DEBUG_FS
 
@@ -1176,7 +1181,23 @@ int bq24160_set_otg_lock(int lock)
 		return -EAGAIN;
 	bd = container_of(psy, struct bq24160_data, bat_ps);
 
-	dev_dbg(&bd->clientp->dev, "OTG lock request: %d\n", lock);
+	if (OTG_UNLOCK != lock && OTG_LOCK != lock)
+		return -EINVAL;
+
+	if (bd->otg_lock == lock) {
+		dev_dbg(&bd->clientp->dev,
+			"Ignore the same operation\n");
+		return 0;
+	}
+
+	dev_info(&bd->clientp->dev, "OTG lock request: %d\n", lock);
+
+	if (lock)
+		bq24160_start_watchdog_reset(bd);
+	else
+		bq24160_stop_watchdog_reset(bd);
+
+	bd->otg_lock = lock;
 
 	return bq24160_otg_lock(bd, lock);
 }

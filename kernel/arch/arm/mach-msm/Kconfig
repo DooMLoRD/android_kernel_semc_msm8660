@@ -576,6 +576,13 @@ config MACH_MSM8X60_QT
 	help
 	  Support for the Qualcomm MSM8x60 QT board.
 
+config MACH_SEMC_FUJI_NOZOMI
+	depends on ARCH_MSM8X60
+	default n
+	bool "SEMC Nozomi"
+	help
+	  Support for the SEMC Nozomi device.
+
 config MACH_SEMC_FUJI_NOZOMI_DCM
         depends on ARCH_MSM8X60
         default n
@@ -932,7 +939,7 @@ config MSM_SMD_DEBUG
 	  between the ARM9 and ARM11
 
 config MSM_SDIO_AL
-	depends on ((ARCH_MSM7X30 || MACH_MSM8X60_CHARM_FFA || MACH_MSM8X60_CHARM_SURF ) && HAS_WAKELOCK)
+	depends on ((ARCH_MSM7X30 || MACH_MSM8X60_CHARM_FFA || MACH_MSM8X60_CHARM_SURF) && HAS_WAKELOCK)
 	default y
 	tristate "SDIO-Abstraction-Layer"
 	help

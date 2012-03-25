@@ -187,6 +187,7 @@ obj-$(CONFIG_MACH_SEMC_STRAWBERRY) += board-semc_mogami.o board-semc_mogami-rfki
 obj-$(CONFIG_MACH_SEMC_AKANE) += board-semc_mogami.o board-semc_mogami-rfkill.o keypad-akane.o leds-akane.o gpio-akane.o charger-akane.o
 obj-$(CONFIG_MACH_SEMC_AZUSA) += board-semc_mogami.o board-semc_mogami-rfkill.o keypad-azusa.o leds-azusa.o gpio-azusa.o charger-azusa.o
 
+obj-$(CONFIG_MACH_SEMC_FUJI_NOZOMI) += board-semc_fuji.o gpiomux-fuji_nozomi.o keypad-fuji_nozomi.o vreg-fuji_nozomi.o leds-fuji_nozomi.o board-semc_fuji-usb.o board-semc_fuji-video.o board-semc_fuji-sdcc.o board-semc_fuji-pmic.o charger-fuji_nozomi.o board-semc_fuji-rfkill.o touch-fuji_nozomi.o gyro-semc_fuji_nozomi.o gyro-semc_fuji_common.o nfc-fuji_nozomi.o
 obj-$(CONFIG_MACH_SEMC_FUJI_NOZOMI_DCM) += board-semc_fuji.o gpiomux-fuji_nozomi.o keypad-fuji_nozomi.o vreg-fuji_nozomi.o leds-fuji_nozomi.o board-semc_fuji-usb.o board-semc_fuji-video.o board-semc_fuji-sdcc.o board-semc_fuji-pmic.o charger-fuji_nozomi.o board-semc_fuji-rfkill.o touch-fuji_nozomi.o gyro-semc_fuji_nozomi.o gyro-semc_fuji_common.o
 
 obj-$(CONFIG_MOGAMI_VIBRATOR) += vibrator-mogami.o

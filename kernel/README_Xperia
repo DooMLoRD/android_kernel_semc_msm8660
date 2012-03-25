@@ -1,4 +1,4 @@
 Configuration files can be found in arch/arm/configs.
 
-Xperia NX SO-02D => fuji_nozomi_dcm_defconfig
-
+    Xperia NX SO-02D => fuji_nozomi_dcm_defconfig
+    Xperia S => fuji_nozomi_defconfig
