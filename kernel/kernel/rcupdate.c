@@ -114,3 +114,7 @@ int rcu_my_thread_group_empty(void)
 }
 EXPORT_SYMBOL_GPL(rcu_my_thread_group_empty);
 #endif /* #ifdef CONFIG_PROVE_RCU */
+#ifndef CONFIG_JRCU
+
+
+#endif /* CONFIG_JRCU */
