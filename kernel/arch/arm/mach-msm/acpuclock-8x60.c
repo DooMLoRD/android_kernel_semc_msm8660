@@ -55,6 +55,7 @@
 #define L_VAL_SCPLL_CAL_MAX	0x20 /* = 1728 MHz with 27MHz source */
 //#define L_VAL_SCPLL_CAL_MAX	0x26 /* = 2052 MHz with 27MHz source */
 #define FREQ_TABLE_SIZE		34
+#define MAX_CPU_FREQ_CAP 1728000
 
 #define MAX_VDD_SC		1350000 /* uV */
 #define MIN_VDD_SC		 800000 /* uV */
@@ -875,7 +876,7 @@ static unsigned int __init select_freq_plan(void)
 	uint32_t max_khz;
 	struct clkctl_acpu_speed *f;
 
-	max_khz = 1728000;
+	max_khz = MAX_CPU_FREQ_CAP;
 	acpu_freq_tbl = acpu_freq_tbl_oc;
 	pr_info("ACPU PVS: OC\n");
 
