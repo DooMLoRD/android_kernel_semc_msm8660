@@ -747,7 +747,7 @@ STATIC int INIT decompress(unsigned char *buf, int len,
 			int(*flush)(void*, unsigned int),
 			unsigned char *outbuf,
 			int *pos,
-			void(*error_fn)(char *x))
+		void(*error_fn)(char *x))
 {
 	return bunzip2(buf, len - 4, fill, flush, outbuf, pos, error_fn);
 }
