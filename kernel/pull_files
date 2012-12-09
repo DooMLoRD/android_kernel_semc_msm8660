@@ -1,6 +1,0 @@
-cp arch/arm/boot/zImage ../out/.
-cd ~/android/xperia-2012-doomkernel-sources-working-dir/vendor/broadcom/wlan/dhd/linux
-make LINUXDIR=~/android/xperia-2012-doomkernel-sources-working-dir/kernel LINUXVER=2.6.35.11
-cp ~/android/xperia-2012-doomkernel-sources-working-dir/vendor/broadcom/wlan/dhd/linux/dhd-android/bcm4330.ko ~/android/xperia-2012-doomkernel-sources-working-dir/out/.
-cp ~/android/xperia-2012-doomkernel-sources-working-dir/vendor/broadcom/wlan/dhd/linux/dhd-android/bcm4330.ko.stripped ~/android/xperia-2012-doomkernel-sources-working-dir/out/.
-make clean

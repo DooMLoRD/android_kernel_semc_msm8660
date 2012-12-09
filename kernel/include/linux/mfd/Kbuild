@@ -1,2 +1,0 @@
-header-y += timpani-audio.h
-header-y += msm-adie-codec.h
